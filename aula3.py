@@ -1,13 +1,22 @@
 import streamlit as st
-import requests
-import pandas as pd
-import plotly.express as px
 
-st.title('DASHBOARD DE VENDAS :shopping_trolley:')
+# Dados de exemplo
+vendas_atual = 120
+vendas_anterior = 100
+delta_vendas = vendas_atual - vendas_anterior
 
-url = 'https://labdados.com/produtos'
-response = requests.get(url)
-dados = pd.DataFrame.from_dict(response.json())
-st.metric('Receita',dados['Preço'].sum())
-st.metric('Quantidade de vendas',dados.shape[0])
-st.dataframe(dados)
+# Determinação da cor do delta
+delta_color = "normal" if delta_vendas > 0 else "inverse"
+
+# Título da aplicação
+st.title("Relatório de Vendas")
+
+# Exibindo a métrica
+st.metric(
+    label="Vendas deste mês",
+    value=vendas_atual,
+    delta=delta_vendas,
+    delta_color=delta_color,
+    help="Comparação com o mês anterior",
+    label_visibility="visible"  # Ou "hidden" para ocultar o rótulo
+)
